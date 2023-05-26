@@ -16,6 +16,7 @@
  * https://stackoverflow.com/questions/55412931/testcafe-screenshot-browser-provider-for-android-crop-js-unable-to-locate-the/
  * https://github.com/DevExpress/testcafe/issues/2918
  * 
+ * Starting from Android 13, original intent method no longer works https://developer.android.com/about/versions/13/behavior-changes-all#intents
  */
 import { promisify } from 'util';
 import { exec as _exec } from 'child_process';
@@ -51,7 +52,7 @@ export default {
         chrome: {
             name:                      'chrome',
             packageName:               'com.android.chrome',
-            startCommand:              'shell am start -n com.android.chrome/com.google.android.apps.chrome.Main {ifURL} --activity-clear-task',
+            startCommand:              'shell am start -a android.intent.action.VIEW -d {ifURL} -n com.android.chrome/com.google.android.apps.chrome.IntentDispatcher --activity-clear-task',
             doClear:                   true,
             resetWelcomeShellCommands: [
                 //new android uses this technique
